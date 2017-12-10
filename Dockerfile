@@ -5,6 +5,7 @@ ENV FASTDFS_PATH=/fastDFS_installer \
 
 #get all the dependences
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
     gcc \
     git \
     make \
