@@ -51,7 +51,7 @@ RUN git clone https://github.com/happyfish100/fastdfs-nginx-module.git \
     && make install \
     && mkdir -p /data/fastdfs/storage/data \
     && ln -sv /data/fastdfs/storage/data /data/fastdfs/storage/data/M00 \
-    && apt-get purge -y --auto-remove git wget
+    && apt-get purge -y --auto-remove git wget make ca-certificates
 
 VOLUME /data/fastdfs
 WORKDIR /data/fastdfs
