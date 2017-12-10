@@ -52,7 +52,8 @@ RUN git clone https://github.com/happyfish100/fastdfs-nginx-module.git \
     && mkdir -p /data/fastdfs/storage/data \
     && ln -sv /data/fastdfs/storage/data /data/fastdfs/storage/data/M00
 
-WORKDIR /
+VOLUME /data/fastdfs
+WORKDIR /data/fastdfs
 RUN rm -rf ${FASTDFS_PATH}
 
 COPY config/ /etc/fdfs/
