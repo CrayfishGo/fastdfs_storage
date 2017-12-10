@@ -58,6 +58,7 @@ RUN git clone https://github.com/happyfish100/fastdfs-nginx-module.git \
 COPY config/ /etc/fdfs/
 COPY nginx.conf /usr/local/nginx/conf/
 
+WORKDIR /
 RUN rm -rf ${FASTDFS_PATH}/
 
 EXPOSE 23000 8899
