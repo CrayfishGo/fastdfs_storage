@@ -25,22 +25,22 @@ RUN echo "Asia/Shanghai" > /etc/timezone && dpkg-reconfigure -f noninteractive t
 
 #create the dirs to store the files downloaded from internet
 RUN mkdir -p ${FASTDFS_PATH}/libfastcommon \
- && mkdir -p ${FASTDFS_PATH}/fastdfs \
- && mkdir -p ${FASTDFS_BASE_PATH}/fastdfs
+    && mkdir -p ${FASTDFS_PATH}/fastdfs \
+    && mkdir -p ${FASTDFS_BASE_PATH}/fastdfs
 
 #compile the libfastcommon
 WORKDIR ${FASTDFS_PATH}/libfastcommon
 RUN git clone https://github.com/happyfish100/libfastcommon.git ${FASTDFS_PATH}/libfastcommon \
- && ./make.sh \
- && ./make.sh install \
- && export LD_LIBRARY_PATH=/usr/lib64/ \
- && ln -s /usr/lib64/libfastcommon.so /usr/local/lib/libfastcommon.so
+    && ./make.sh \
+    && ./make.sh install \
+    && export LD_LIBRARY_PATH=/usr/lib64/ \
+    && ln -s /usr/lib64/libfastcommon.so /usr/local/lib/libfastcommon.so
 
 #compile the fastdfs
 WORKDIR ${FASTDFS_PATH}/fastdfs
 RUN git clone https://github.com/happyfish100/fastdfs.git ${FASTDFS_PATH}/fastdfs \
- && ./make.sh \
- && ./make.sh install
+    && ./make.sh \
+    && ./make.sh install
 
 WORKDIR ${FASTDFS_PATH}/fastdfs
 RUN git clone https://github.com/happyfish100/fastdfs-nginx-module.git \
@@ -55,13 +55,13 @@ RUN git clone https://github.com/happyfish100/fastdfs-nginx-module.git \
     && mkdir -p /data/fastdfs/storage/data \
     && ln -sv /data/fastdfs/storage/data /data/fastdfs/storage/data/M00
 
+WORKDIR /
+RUN rm -rf ${FASTDFS_PATH}
+
 COPY config/ /etc/fdfs/
 COPY nginx.conf /usr/local/nginx/conf/
-
-WORKDIR /
-RUN rm -rf ${FASTDFS_PATH}/
-
-EXPOSE 23000 8899
 COPY start.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/start.sh
+
+EXPOSE 23000 8899
 CMD ["/usr/local/bin/start.sh"]
