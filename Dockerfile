@@ -4,7 +4,7 @@ ENV FASTDFS_PATH=/fastDFS_installer \
     FASTDFS_BASE_PATH=/data
 
 #get all the dependences
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     git \
     make \
@@ -17,8 +17,7 @@ RUN apt-get update && apt-get install -y \
     openssl \
     wget \
     libssl-dev \
- && rm -rf /var/lib/apt/lists/* \
- && apt-get clean
+ && rm -rf /var/lib/apt/lists/*
 
 #create the dirs to store the files downloaded from internet
 RUN mkdir -p ${FASTDFS_PATH}/libfastcommon \
@@ -50,7 +49,8 @@ RUN git clone https://github.com/happyfish100/fastdfs-nginx-module.git \
     && ln -s /usr/include/fast* /usr/local/include/ \
     && make install \
     && mkdir -p /data/fastdfs/storage/data \
-    && ln -sv /data/fastdfs/storage/data /data/fastdfs/storage/data/M00
+    && ln -sv /data/fastdfs/storage/data /data/fastdfs/storage/data/M00 \
+    && apt-get purge -y --auto-remove git wget
 
 VOLUME /data/fastdfs
 WORKDIR /data/fastdfs
